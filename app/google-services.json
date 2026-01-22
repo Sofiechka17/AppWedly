@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888876153239",
+    "project_id": "application-wedly",
+    "storage_bucket": "application-wedly.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888876153239:android:42a54af55d61b3def36cd2",
+        "android_client_info": {
+          "package_name": "com.example.applicationwedly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCXRTx1KyYN8F6ylxb5gNwBmPtV4iUgPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

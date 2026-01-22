@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.applicationwedly">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/golyb"
+        android:label="Wedly"
+        android:theme="@style/Theme.ApplicationWedly">
+
+        <!-- Стартовый экран -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Экран авторизации -->
+        <activity android:name=".AuthActivity" />
+
+        <!-- Экран регистрации -->
+        <activity android:name=".RegisterActivity" />
+
+        <activity android:name=".MainScreenActivity" />
+
+        <activity android:name=".MensClothingActivity" />
+        <activity android:name=".ProductDetailActivity" />
+        <activity android:name=".CartActivity" />
+        <activity android:name=".FavoritesActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".RingsActivity" />
+
+    </application>
+
+</manifest>

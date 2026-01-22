@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#FF666666</color>
+    <color name="light_gray">#FFDDDDDD</color>
+    <color name="blue">#FF239CE1</color>
+    <color name="primary_blue">#FF60ACDE</color>
+    <color name="secondary_blue">#FFA1CFED</color>
+    <color name="icon_circle">#AADCDCDC</color>
+    <color name="icon_color">#FF4D4B4B</color>
+</resources>
