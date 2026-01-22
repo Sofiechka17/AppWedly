@@ -261,11 +261,12 @@
                 <GridView
                     android:id="@+id/recommendationsGrid"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="520dp"
                     android:numColumns="2"
                     android:verticalSpacing="16dp"
                     android:horizontalSpacing="16dp"
-                    android:stretchMode="columnWidth" />
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"/>
 
             </LinearLayout>
 

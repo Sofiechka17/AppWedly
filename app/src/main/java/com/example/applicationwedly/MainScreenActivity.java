@@ -35,10 +35,10 @@ public class MainScreenActivity extends AppCompatActivity {
 
     // Список рекомендаций (4 товара)
     private List<Product> recommendations = new ArrayList<Product>() {{
-        add(new Product("Свадебный торт", "P 10000", R.drawable.cake_image, 5.0f));
-        add(new Product("Букет невесты", "P 7000", R.drawable.flowers_image, 4.9f));
-        add(new Product("Обручальные кольца", "P 30000", R.drawable.rings_image, 5.0f));
-        add(new Product("Свадебная пиротехника", "P 100000", R.drawable.fireworks_image, 5.0f));
+        add(new Product("Свадебный торт", "₽ 10000", R.drawable.cake_image, 5.0f));
+        add(new Product("Букет невесты", "₽ 7000", R.drawable.flowers_image, 4.9f));
+        add(new Product("Обручальные кольца", "₽ 30000", R.drawable.rings_image, 5.0f));
+        add(new Product("Свадебная пиротехника", "₽ 100000", R.drawable.fireworks_image, 5.0f));
     }};
 
     @Override
@@ -120,8 +120,7 @@ public class MainScreenActivity extends AppCompatActivity {
 
         // Кольца
         findViewById(R.id.categoryRings).setOnClickListener(v -> {
-            Intent intent = new Intent(MainScreenActivity.this, RingsActivity.class);
-            startActivity(intent);
+            android.widget.Toast.makeText(this, "Страница колец", android.widget.Toast.LENGTH_SHORT).show();
         });
 
         // Цветы
@@ -228,7 +227,6 @@ public class MainScreenActivity extends AppCompatActivity {
     private void setupBottomNavigation() {
         // Главная уже активна
         findViewById(R.id.btnHome).setOnClickListener(v -> {
-            // Уже на главной
         });
 
         // Корзина

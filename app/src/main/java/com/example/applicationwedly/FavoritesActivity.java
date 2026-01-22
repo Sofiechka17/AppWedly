@@ -19,9 +19,9 @@ public class FavoritesActivity extends AppCompatActivity {
         GridView favoritesGrid = findViewById(R.id.favoritesGrid);
 
         List<Product> favorites = new ArrayList<>();
-        favorites.add(new Product("Свадебный торт", "P 10000", R.drawable.cake_image, 5.0f));
-        favorites.add(new Product("Букет невесты", "P 7000", R.drawable.flowers_image, 4.9f));
-        favorites.add(new Product("Обручальные кольца", "P 30000", R.drawable.rings_image, 5.0f));
+        favorites.add(new Product("Свадебный торт", "₽ 10000", R.drawable.cake_image, 5.0f));
+        favorites.add(new Product("Букет невесты", "₽ 7000", R.drawable.flowers_image, 4.9f));
+        favorites.add(new Product("Обручальные кольца", "₽ 30000", R.drawable.rings_image, 5.0f));
 
         RecommendationAdapter adapter = new RecommendationAdapter(this, favorites);
         favoritesGrid.setAdapter(adapter);

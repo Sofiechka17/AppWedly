@@ -28,8 +28,13 @@ public class RecommendationAdapter extends BaseAdapter {
 
         ((ImageView)v.findViewById(R.id.productImage)).setImageResource(p.getImageRes());
         ((TextView)v.findViewById(R.id.productName)).setText(p.getName());
+        // Исправляем отображение цены - заменяем P на ₽
+        String price = p.getPrice();
+        if (price.startsWith("P ")) {
+            price = "₽" + price.substring(1);
+        }
         ((TextView)v.findViewById(R.id.productPrice)).setText(p.getPrice());
-        ((TextView)v.findViewById(R.id.productRating)).setText("★ " + p.getRating());
+        ((TextView)v.findViewById(R.id.productRating)).setText(String.valueOf(p.getRating()));
 
         ImageView heart = v.findViewById(R.id.favoriteIcon);
 
