@@ -28,7 +28,8 @@
             android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/heart_icon" />
+            android:src="@drawable/heart_icon"
+            android:tint="@color/gray"/>
 
     </RelativeLayout>
 
@@ -79,7 +80,7 @@
                     android:text="₽ 0000"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    android:textColor="@color/primary_blue" />
+                    android:textColor="@color/gray" />
 
                 <!-- Рейтинг (желтая звезда + число) -->
                 <LinearLayout

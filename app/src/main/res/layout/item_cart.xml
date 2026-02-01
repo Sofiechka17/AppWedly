@@ -57,11 +57,15 @@
 
         <Button
             android:id="@+id/btnMinus"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:text="-"
-            android:background="@drawable/circle_button"
-            android:textColor="@color/white" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/primary_blue"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/txtQty"
@@ -73,11 +77,15 @@
 
         <Button
             android:id="@+id/btnPlus"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:text="+"
-            android:background="@drawable/circle_button"
-            android:textColor="@color/white" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/primary_blue"
+            android:textColor="@color/white"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
