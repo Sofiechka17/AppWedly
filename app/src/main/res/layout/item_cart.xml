@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cartItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:layout_marginBottom="12dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="12dp">
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Название товара"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/txtSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Размер: -"
+            android:textSize="13sp"
+            android:textColor="@color/gray"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/txtPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₽ 0"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="6dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnMinus"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="-"
+            android:background="@drawable/circle_button"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/txtQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="14sp"
+            android:layout_margin="8dp" />
+
+        <Button
+            android:id="@+id/btnPlus"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="+"
+            android:background="@drawable/circle_button"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

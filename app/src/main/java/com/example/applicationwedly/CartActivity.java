@@ -5,25 +5,66 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class CartActivity extends AppCompatActivity {
+import java.util.List;
+
+public class CartActivity extends AppCompatActivity implements CartAdapter.OnCartChangeListener {
+
+    private ListView cartListView;
+    private TextView totalPriceTextView;
+    private Button checkoutBtn;
+    private CartAdapter cartAdapter;
+    private List<CartManager.CartItem> cartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        TextView totalPrice = findViewById(R.id.totalPrice);
-        totalPrice.setText("₽ 30000");
+        // Находим View
+        cartListView = findViewById(R.id.cartListView);
+        totalPriceTextView = findViewById(R.id.totalPrice);
+        checkoutBtn = findViewById(R.id.btnCheckout);
 
-        Button checkoutBtn = findViewById(R.id.btnCheckout);
+        // Получаем товары из корзины
+        cartItems = CartManager.getInstance().getCartItems();
+
+        // Создаем адаптер
+        cartAdapter = new CartAdapter(this, cartItems, this);
+        cartListView.setAdapter(cartAdapter);
+
+        // Обновляем общую стоимость
+        updateTotalPrice();
+
+        // Кнопка оформления заказа
         checkoutBtn.setOnClickListener(v -> {
-            android.widget.Toast.makeText(this, "Заказ оформлен!", android.widget.Toast.LENGTH_SHORT).show();
+            if (cartItems.isEmpty()) {
+                Toast.makeText(this, "Корзина пуста", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Заказ оформлен!", Toast.LENGTH_SHORT).show();
+                CartManager.getInstance().clearCart();
+                cartItems.clear();
+                cartAdapter.notifyDataSetChanged();
+                updateTotalPrice();
+            }
         });
 
         setupBottomNavigation();
+    }
+
+    private void updateTotalPrice() {
+        double total = CartManager.getInstance().getTotalPrice();
+        totalPriceTextView.setText("₽ " + String.format("%.0f", total));
+    }
+
+    @Override
+    public void onCartChanged() {
+        updateTotalPrice();
     }
 
     private void setupBottomNavigation() {

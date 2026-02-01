@@ -11,38 +11,43 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ProductWithSizeActivity extends AppCompatActivity {
 
-public class RingsActivity extends AppCompatActivity {
-
-    private String selectedFemaleSize = "";
-    private String selectedMaleSize = "";
     private Product currentProduct;
+    private String selectedSize = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rings);
+        setContentView(R.layout.activity_product_with_size);
 
         // Получаем данные из Intent
         Intent intent = getIntent();
         String productName = intent.getStringExtra("product_name");
         String productPrice = intent.getStringExtra("product_price");
-        float productRating = intent.getFloatExtra("product_rating", 5.0f);
+        float productRating = intent.getFloatExtra("product_rating", 0.0f);
         int productImageRes = intent.getIntExtra("product_image", R.drawable.rings_image);
+        String[] availableSizes = intent.getStringArrayExtra("available_sizes");
+        String productDescription = intent.getStringExtra("product_description");
 
-        currentProduct = new Product(productName, productPrice, productImageRes, productRating);
+        // Если нет описания, используем стандартное
+        if (productDescription == null) {
+            productDescription = "Высококачественный товар для вашего торжества. " +
+                    "Материалы: премиум-класс. Гарантия качества.";
+        }
 
-        // Находим View
+        currentProduct = new Product(productName, productPrice, productImageRes,
+                productRating, availableSizes, productDescription);
+
+        // Находим все View
         ImageView productImage = findViewById(R.id.productImage);
         TextView productNameText = findViewById(R.id.productName);
         TextView productPriceText = findViewById(R.id.productPrice);
         TextView productRatingText = findViewById(R.id.productRating);
+        TextView productDescriptionText = findViewById(R.id.productDescription);
         ImageView btnBack = findViewById(R.id.btnBack);
         ImageView btnLike = findViewById(R.id.btnLike);
-        LinearLayout femaleSizesContainer = findViewById(R.id.femaleSizesContainer);
-        LinearLayout maleSizesContainer = findViewById(R.id.maleSizesContainer);
+        LinearLayout sizesContainer = findViewById(R.id.sizesContainer);
         Button btnBuyNow = findViewById(R.id.btnBuyNow);
 
         // Устанавливаем данные
@@ -58,6 +63,9 @@ public class RingsActivity extends AppCompatActivity {
 
         // Устанавливаем рейтинг
         productRatingText.setText(String.valueOf(currentProduct.getRating()));
+
+        // Устанавливаем описание
+        productDescriptionText.setText(currentProduct.getDescription());
 
         // Кнопка назад
         btnBack.setOnClickListener(v -> finish());
@@ -83,40 +91,51 @@ public class RingsActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         });
 
-        // Создаем кнопки размеров для невесты
-        String[] femaleSizes = {"15", "15.5", "16", "16.5", "17", "17.5", "18", "18.5"};
-        createSizeButtons(femaleSizesContainer, femaleSizes, true);
-
-        // Создаем кнопки размеров для жениха
-        String[] maleSizes = {"15", "15.5", "16", "16.5", "17", "17.5", "18", "18.5"};
-        createSizeButtons(maleSizesContainer, maleSizes, false);
+        // Создаем кнопки размеров, если они есть
+        if (currentProduct.hasSizes()) {
+            createSizeButtons(sizesContainer, currentProduct.getAvailableSizes());
+            selectedSize = currentProduct.getAvailableSizes()[0]; // По умолчанию первый размер
+        } else {
+            // Если размеров нет, скрываем контейнер
+            sizesContainer.setVisibility(View.GONE);
+            findViewById(R.id.sizeTitle).setVisibility(View.GONE);
+        }
 
         // Кнопка "Купить сейчас"
         btnBuyNow.setOnClickListener(v -> {
-            if (selectedFemaleSize.isEmpty() || selectedMaleSize.isEmpty()) {
-                Toast.makeText(this, "Выберите оба размера", Toast.LENGTH_SHORT).show();
+            // Для товаров с размерами проверяем выбор
+            if (currentProduct.hasSizes() && selectedSize.isEmpty()) {
+                Toast.makeText(this, "Выберите размер", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Создаем копию товара с размерами
-            Product productWithSizes = new Product(
+            // Создаем копию товара с выбранным размером
+            Product productToAdd = new Product(
                     currentProduct.getName(),
                     currentProduct.getPrice(),
                     currentProduct.getImageRes(),
-                    currentProduct.getRating()
+                    currentProduct.getRating(),
+                    currentProduct.getAvailableSizes(),
+                    currentProduct.getDescription()
             );
-            productWithSizes.setSelectedSize(selectedFemaleSize + ", " + selectedMaleSize);
+
+            if (currentProduct.hasSizes()) {
+                productToAdd.setSelectedSize(selectedSize);
+            } else {
+                productToAdd.setSelectedSize("-");
+            }
 
             // Добавляем в корзину
-            CartManager.getInstance().addToCart(productWithSizes);
+            CartManager.getInstance().addToCart(productToAdd);
             Toast.makeText(this, "Товар добавлен в корзину!", Toast.LENGTH_SHORT).show();
         });
 
         setupBottomNavigation();
     }
 
-    private void createSizeButtons(LinearLayout container, String[] sizes, boolean isFemale) {
-        for (String size : sizes) {
+    private void createSizeButtons(LinearLayout container, String[] sizes) {
+        for (int i = 0; i < sizes.length; i++) {
+            String size = sizes[i];
             Button button = new Button(this);
             button.setText(size);
             button.setBackgroundResource(R.drawable.size_button_background);
@@ -129,10 +148,16 @@ public class RingsActivity extends AppCompatActivity {
             params.setMargins(0, 0, 8, 8);
             button.setLayoutParams(params);
 
+            // Первую кнопку делаем выбранной по умолчанию
+            if (i == 0) {
+                button.setBackgroundResource(R.drawable.size_button_background_selected);
+                button.setTextColor(getResources().getColor(R.color.white));
+            }
+
             button.setOnClickListener(v -> {
                 // Снимаем выделение со всех кнопок в контейнере
-                for (int i = 0; i < container.getChildCount(); i++) {
-                    View child = container.getChildAt(i);
+                for (int j = 0; j < container.getChildCount(); j++) {
+                    View child = container.getChildAt(j);
                     if (child instanceof Button) {
                         child.setBackgroundResource(R.drawable.size_button_background);
                         ((Button) child).setTextColor(getResources().getColor(R.color.gray));
@@ -143,11 +168,7 @@ public class RingsActivity extends AppCompatActivity {
                 button.setBackgroundResource(R.drawable.size_button_background_selected);
                 button.setTextColor(getResources().getColor(R.color.white));
 
-                if (isFemale) {
-                    selectedFemaleSize = size;
-                } else {
-                    selectedMaleSize = size;
-                }
+                selectedSize = size;
             });
 
             container.addView(button);
@@ -157,23 +178,23 @@ public class RingsActivity extends AppCompatActivity {
     private void setupBottomNavigation() {
         LinearLayout btnHome = findViewById(R.id.btnHome);
         btnHome.setOnClickListener(v -> {
-            startActivity(new Intent(RingsActivity.this, MainScreenActivity.class));
+            startActivity(new Intent(ProductWithSizeActivity.this, MainScreenActivity.class));
             finish();
         });
 
         LinearLayout btnCart = findViewById(R.id.btnCart);
         btnCart.setOnClickListener(v -> {
-            startActivity(new Intent(RingsActivity.this, CartActivity.class));
+            startActivity(new Intent(ProductWithSizeActivity.this, CartActivity.class));
         });
 
         LinearLayout btnFavorites = findViewById(R.id.btnFavorites);
         btnFavorites.setOnClickListener(v -> {
-            startActivity(new Intent(RingsActivity.this, FavoritesActivity.class));
+            startActivity(new Intent(ProductWithSizeActivity.this, FavoritesActivity.class));
         });
 
         LinearLayout btnProfile = findViewById(R.id.btnProfile);
         btnProfile.setOnClickListener(v -> {
-            startActivity(new Intent(RingsActivity.this, ProfileActivity.class));
+            startActivity(new Intent(ProductWithSizeActivity.this, ProfileActivity.class));
         });
     }
 }

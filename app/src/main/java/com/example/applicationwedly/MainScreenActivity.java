@@ -34,11 +34,25 @@ public class MainScreenActivity extends AppCompatActivity {
     }};
 
     // Список рекомендаций (4 товара)
+    // В начале класса MainScreenActivity:
     private List<Product> recommendations = new ArrayList<Product>() {{
-        add(new Product("Свадебный торт", "₽ 10000", R.drawable.cake_image, 5.0f));
-        add(new Product("Букет невесты", "₽ 7000", R.drawable.flowers_image, 4.9f));
-        add(new Product("Обручальные кольца", "₽ 30000", R.drawable.rings_image, 5.0f));
-        add(new Product("Свадебная пиротехника", "₽ 100000", R.drawable.fireworks_image, 5.0f));
+        // Товары без размеров
+        String cakeDescription = "Вкусный свадебный торт ручной работы.";
+        String flowerDescription = "Красивый букет невесты из свежих цветов.";
+        String fireworksDescription = "Яркая пиротехника для свадебного торжества.";
+
+        // Кольца с размерами
+        String[] ringSizes = {"15", "15.5", "16", "16.5", "17", "17.5", "18", "18.5"};
+        String ringDescription = "Эксклюзивные обручальные кольца с уникальной системой подбора размеров.";
+
+        add(new Product("Свадебный торт", "₽ 10000", R.drawable.cake_image, 5.0f,
+                new String[0], cakeDescription));
+        add(new Product("Букет невесты", "₽ 7000", R.drawable.flowers_image, 4.9f,
+                new String[0], flowerDescription));
+        add(new Product("Обручальные кольца", "₽ 30000", R.drawable.rings_image, 5.0f,
+                ringSizes, ringDescription));
+        add(new Product("Свадебная пиротехника", "₽ 100000", R.drawable.fireworks_image, 5.0f,
+                new String[0], fireworksDescription));
     }};
 
     @Override
@@ -210,17 +224,35 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Product product = recommendations.get(position);
-                Intent intent = new Intent(MainScreenActivity.this, ProductDetailActivity.class);
+                Intent intent;
+
+                // Для колец - отдельная активность
+                if (product.getName().toLowerCase().contains("кольц")) {
+                    intent = new Intent(MainScreenActivity.this, RingsActivity.class);
+                }
+                // Для товаров с размерами - ProductWithSizeActivity
+                else if (product.hasSizes()) {
+                    intent = new Intent(MainScreenActivity.this, ProductWithSizeActivity.class);
+                    intent.putExtra("available_sizes", product.getAvailableSizes());
+                }
+                // Для остальных - ProductDetailActivity
+                else {
+                    intent = new Intent(MainScreenActivity.this, ProductDetailActivity.class);
+                }
+
                 intent.putExtra("product_name", product.getName());
                 intent.putExtra("product_price", product.getPrice());
                 intent.putExtra("product_rating", product.getRating());
+                intent.putExtra("product_image", product.getImageRes());
+                intent.putExtra("product_description", product.getDescription());
                 startActivity(intent);
             }
         });
 
         // Смотреть все рекомендации
         findViewById(R.id.btnViewAllRecommendations).setOnClickListener(v -> {
-            android.widget.Toast.makeText(MainScreenActivity.this, "Все рекомендации", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(MainScreenActivity.this, "Все рекомендации",
+                    android.widget.Toast.LENGTH_SHORT).show();
         });
     }
 

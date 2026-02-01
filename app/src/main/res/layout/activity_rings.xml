@@ -59,7 +59,7 @@
                 android:id="@+id/productName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Название товара"
+                android:text="Обручальные кольца"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -76,7 +76,7 @@
                     android:id="@+id/productPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₽ 0000"
+                    android:text="₽ 30000"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     android:textColor="@color/primary_blue" />
@@ -90,7 +90,6 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:id="@+id/starIcon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/star"
@@ -109,23 +108,58 @@
 
             </RelativeLayout>
 
-            <!-- Описание -->
+            <!-- Заголовок для размеров невесты -->
             <TextView
-                android:id="@+id/productDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Описание товара. Подробная информация о товаре, его характеристиках и особенностях."
+                android:text="Выберите размер для невесты"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Контейнер для размеров невесты -->
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/femaleSizesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
+                app:flexWrap="wrap" />
+
+            <!-- Заголовок для размеров жениха -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Выберите размер для жениха"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Контейнер для размеров жениха -->
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/maleSizesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
+                app:flexWrap="wrap" />
+
+            <!-- Описание -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Эксклюзивные обручальные кольца с уникальной системой подбора размеров. Сначала выберите идеальный размер для невесты по специальной женской таблице, затем подберите соответствующее кольцо для жениха по мужской размерной сетке. Такой подход обеспечивает безупречную гармонию и комфорт для обоих в день вашей свадьбы и на всю совместную жизнь."
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:lineSpacingExtra="6dp"
                 android:layout_marginBottom="32dp" />
 
-            <!-- Кнопка Добавить в корзину -->
+            <!-- Кнопка Купить сейчас -->
             <Button
-                android:id="@+id/btnAddToCart"
+                android:id="@+id/btnBuyNow"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Добавить в корзину"
+                android:text="Купить сейчас"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:backgroundTint="@color/primary_blue"

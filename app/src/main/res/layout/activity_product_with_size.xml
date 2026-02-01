@@ -90,7 +90,6 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:id="@+id/starIcon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/star"
@@ -109,23 +108,42 @@
 
             </RelativeLayout>
 
+            <!-- Заголовок для размеров -->
+            <TextView
+                android:id="@+id/sizeTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Выбрать размер"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Контейнер для размеров -->
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/sizesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
+                app:flexWrap="wrap" />
+
             <!-- Описание -->
             <TextView
                 android:id="@+id/productDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Описание товара. Подробная информация о товаре, его характеристиках и особенностях."
+                android:text="Описание товара..."
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:lineSpacingExtra="6dp"
                 android:layout_marginBottom="32dp" />
 
-            <!-- Кнопка Добавить в корзину -->
+            <!-- Кнопка Купить сейчас -->
             <Button
-                android:id="@+id/btnAddToCart"
+                android:id="@+id/btnBuyNow"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Добавить в корзину"
+                android:text="Купить сейчас"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:backgroundTint="@color/primary_blue"
@@ -134,7 +152,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Нижнее меню -->
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
@@ -183,14 +200,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/cart_icon"
-                android:tint="@color/gray" />
+                android:tint="@color/primary_blue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Корзина"
                 android:textSize="10sp"
-                android:textColor="@color/gray"
+                android:textColor="@color/primary_blue"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
