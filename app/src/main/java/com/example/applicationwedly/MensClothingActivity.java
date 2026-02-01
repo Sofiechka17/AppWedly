@@ -84,36 +84,40 @@ public class MensClothingActivity extends AppCompatActivity {
             String[] suitSizes = {"46", "48", "50", "52", "54", "56"};
             String suitDescription = "Элегантный мужской костюм для особых случаев.";
 
-            products.add(new Product("Костюм свадебный", "39000", R.drawable.suit1, 4.9f,
+            products.add(new Product("Костюм", "₽ 39000", R.drawable.suit1, 4.9f,
                     suitSizes, suitDescription));
-            products.add(new Product("Костюм классический", "50000", R.drawable.suit1, 5.0f,
+            products.add(new Product("Костюм", "₽ 50000", R.drawable.suit2, 5.0f,
                     suitSizes, suitDescription));
-            products.add(new Product("Костюм деловой", "40000", R.drawable.suit1, 5.0f,
+            products.add(new Product("Костюм", "₽ 40000", R.drawable.suit3, 5.0f,
                     suitSizes, suitDescription));
-            products.add(new Product("Костюм праздничный", "45000", R.drawable.suit1, 5.0f,
+            products.add(new Product("Костюм", "₽ 45000", R.drawable.suit4, 5.0f,
                     suitSizes, suitDescription));
         } else if (category.equals("shoes")) {
             String[] shoeSizes = {"38", "39", "40", "41", "42", "43", "44", "45"};
             String shoeDescription = "Стильные классические мужские туфли.";
 
-            products.add(new Product("Туфли классические", "15000", R.drawable.suit1, 5.0f,
+            products.add(new Product("Туфли классические", "₽ 15000", R.drawable.shoe1, 5.0f,
                     shoeSizes, shoeDescription));
-            products.add(new Product("Обувь мужская", "7000", R.drawable.suit1, 5.0f,
+            products.add(new Product("Туфли классические", "₽ 13000", R.drawable.shoe2, 5.0f,
                     shoeSizes, shoeDescription));
-            products.add(new Product("Кожаные туфли", "12000", R.drawable.suit1, 4.8f,
+            products.add(new Product("Обувь мужская", "₽ 7000", R.drawable.shoe3, 5.0f,
                     shoeSizes, shoeDescription));
-            products.add(new Product("Спортивная обувь", "9000", R.drawable.suit1, 4.7f,
+            products.add(new Product("Обувь мужская", "₽ 7000", R.drawable.shoe4, 5.0f,
                     shoeSizes, shoeDescription));
         } else if (category.equals("accessories")) {
             String accessoryDescription = "Элегантный аксессуар.";
             // Для аксессуаров нет размеров
-            products.add(new Product("Запонки мужские", "5000", R.drawable.suit1, 5.0f,
+            products.add(new Product("Запонки мужские", "₽ 5000", R.drawable.accessory1, 5.0f,
                     new String[0], accessoryDescription));
-            products.add(new Product("Часы мужские", "20000", R.drawable.suit1, 5.0f,
+            products.add(new Product("Бутоньерка мужская", "₽ 1000", R.drawable.accessory2, 5.0f,
                     new String[0], accessoryDescription));
-            products.add(new Product("Галстук", "2500", R.drawable.suit1, 4.9f,
+            products.add(new Product("Часы мужские", "₽ 20000", R.drawable.accessory3, 5.0f,
                     new String[0], accessoryDescription));
-            products.add(new Product("Бутоньерка", "10000", R.drawable.suit1, 5.0f,
+            products.add(new Product("Бабочка мужская", "₽ 2000", R.drawable.accessory4, 5.0f,
+                    new String[0], accessoryDescription));
+            products.add(new Product("Галстук", "₽ 2500", R.drawable.accessory5, 5.0f,
+                    new String[0], accessoryDescription));
+            products.add(new Product("Зажим для галстука", "₽ 500", R.drawable.accessory6, 5.0f,
                     new String[0], accessoryDescription));
         }
 

@@ -93,20 +93,27 @@ public class RingsActivity extends AppCompatActivity {
 
         // Кнопка "Купить сейчас"
         btnBuyNow.setOnClickListener(v -> {
-            // Если товар требует размера (например, кольца), проверяем, что оба размера выбраны
+            // Если товар - кольца, то проверяем, что оба размера выбраны
             if (currentProduct.getName().toLowerCase().contains("кольц")) {
                 if (selectedFemaleSize.isEmpty() || selectedMaleSize.isEmpty()) {
                     Toast.makeText(this, "Выберите оба размера", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
-            // Для товаров без размеров или с одним размером
+            // Если товар - костюм или обувь, то проверяем, что выбран хотя бы один размер
+            else if (currentProduct.getName().toLowerCase().contains("костюм") || currentProduct.getName().toLowerCase().contains("обувь")) {
+                if (selectedFemaleSize.isEmpty() && selectedMaleSize.isEmpty()) {
+                    Toast.makeText(this, "Выберите размер", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            // Если товар не требует размера (например, аксессуары), то просто добавляем в корзину
             else if (selectedFemaleSize.isEmpty() && selectedMaleSize.isEmpty()) {
-                Toast.makeText(this, "Размер не выбран", Toast.LENGTH_SHORT).show();
-                return;
+                // Для товаров без размера
+                Toast.makeText(this, "Размер не требуется для этого товара", Toast.LENGTH_SHORT).show();
             }
 
-            // Создаем копию товара с размерами
+            // Создаем копию товара с выбранными размерами (если они есть)
             Product productWithSizes = new Product(
                     currentProduct.getName(),
                     currentProduct.getPrice(),
@@ -116,18 +123,17 @@ public class RingsActivity extends AppCompatActivity {
                     currentProduct.getDescription()
             );
 
-            // Устанавливаем выбранные размеры
             if (currentProduct.getName().toLowerCase().contains("кольц")) {
                 productWithSizes.setSelectedSize(selectedFemaleSize + ", " + selectedMaleSize);
-            } else {
-                productWithSizes.setSelectedSize(selectedFemaleSize.isEmpty() ? "-" : selectedFemaleSize); // Для других товаров
+            } else if (!selectedFemaleSize.isEmpty() || !selectedMaleSize.isEmpty()) {
+                // Для других товаров, которые требуют одного размера, выбираем один из размеров
+                productWithSizes.setSelectedSize(selectedFemaleSize.isEmpty() ? selectedMaleSize : selectedFemaleSize);
             }
 
-            // Добавляем в корзину с размерами
+            // Добавляем товар в корзину
             CartManager.getInstance().addToCart(productWithSizes, selectedFemaleSize, selectedMaleSize);
             Toast.makeText(this, "Товар добавлен в корзину!", Toast.LENGTH_SHORT).show();
         });
-
         setupBottomNavigation();
     }
 
