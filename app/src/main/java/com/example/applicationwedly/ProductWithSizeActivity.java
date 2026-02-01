@@ -15,6 +15,8 @@ public class ProductWithSizeActivity extends AppCompatActivity {
 
     private Product currentProduct;
     private String selectedSize = "";
+    private String selectedFemaleSize = "";
+    private String selectedMaleSize = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +128,7 @@ public class ProductWithSizeActivity extends AppCompatActivity {
             }
 
             // Добавляем в корзину
-            CartManager.getInstance().addToCart(productToAdd);
+            CartManager.getInstance().addToCart(productToAdd, selectedFemaleSize, selectedMaleSize);
             Toast.makeText(this, "Товар добавлен в корзину!", Toast.LENGTH_SHORT).show();
         });
 
@@ -138,8 +140,8 @@ public class ProductWithSizeActivity extends AppCompatActivity {
             String size = sizes[i];
             Button button = new Button(this);
             button.setText(size);
-            button.setBackgroundResource(R.drawable.size_button_background);
-            button.setTextColor(getResources().getColor(R.color.gray));
+            button.setBackgroundResource(R.drawable.size_button_background);  // Начальное состояние кнопки с обводкой
+            button.setTextColor(getResources().getColor(R.color.primary_blue));  // Цвет текста кнопки
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -148,27 +150,22 @@ public class ProductWithSizeActivity extends AppCompatActivity {
             params.setMargins(0, 0, 8, 8);
             button.setLayoutParams(params);
 
-            // Первую кнопку делаем выбранной по умолчанию
-            if (i == 0) {
-                button.setBackgroundResource(R.drawable.size_button_background_selected);
-                button.setTextColor(getResources().getColor(R.color.white));
-            }
-
+            // Добавляем логику выделения кнопки при нажатии
             button.setOnClickListener(v -> {
                 // Снимаем выделение со всех кнопок в контейнере
                 for (int j = 0; j < container.getChildCount(); j++) {
                     View child = container.getChildAt(j);
                     if (child instanceof Button) {
-                        child.setBackgroundResource(R.drawable.size_button_background);
-                        ((Button) child).setTextColor(getResources().getColor(R.color.gray));
+                        child.setBackgroundResource(R.drawable.size_button_background);  // Состояние без заливки
+                        ((Button) child).setTextColor(getResources().getColor(R.color.primary_blue));  // Текст синий
                     }
                 }
 
-                // Выделяем нажатую кнопку
-                button.setBackgroundResource(R.drawable.size_button_background_selected);
-                button.setTextColor(getResources().getColor(R.color.white));
+                // Выделяем нажатую кнопку (с заливкой)
+                button.setBackgroundResource(R.drawable.size_button_background_selected);  // Кнопка с заливкой
+                button.setTextColor(getResources().getColor(R.color.white));  // Цвет текста на белый
 
-                selectedSize = size;
+                selectedSize = size;  // Сохраняем выбранный размер
             });
 
             container.addView(button);

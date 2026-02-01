@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ProductDetailActivity extends AppCompatActivity {
 
     private Product currentProduct;
+    private String selectedFemaleSize = "";
+    private String selectedMaleSize = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +91,41 @@ public class ProductDetailActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         });
 
-        // Кнопка добавления в корзину
         btnAddToCart.setOnClickListener(v -> {
-            CartManager.getInstance().addToCart(currentProduct);
-            Toast.makeText(this,
-                    "Товар добавлен в корзину!", Toast.LENGTH_SHORT).show();
-        });
+            // Для товаров, где нужно выбрать размеры
+            if (currentProduct.getName().toLowerCase().contains("кольц")) {
+                if (selectedFemaleSize.isEmpty() || selectedMaleSize.isEmpty()) {
+                    Toast.makeText(this, "Выберите оба размера", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            // Для товаров без размера
+            else if (selectedFemaleSize.isEmpty() && selectedMaleSize.isEmpty()) {
+                Toast.makeText(this, "Размер не выбран", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
+            // Создаем копию товара с размерами
+            Product productWithSizes = new Product(
+                    currentProduct.getName(),
+                    currentProduct.getPrice(),
+                    currentProduct.getImageRes(),
+                    currentProduct.getRating(),
+                    currentProduct.getAvailableSizes(),
+                    currentProduct.getDescription()
+            );
+
+            // Устанавливаем выбранный размер
+            if (currentProduct.getName().toLowerCase().contains("кольц")) {
+                productWithSizes.setSelectedSize(selectedFemaleSize + ", " + selectedMaleSize);
+            } else {
+                productWithSizes.setSelectedSize(selectedFemaleSize.isEmpty() ? "-" : selectedFemaleSize);
+            }
+
+            // Добавляем в корзину с размерами
+            CartManager.getInstance().addToCart(productWithSizes, selectedFemaleSize, selectedMaleSize);
+            Toast.makeText(this, "Товар добавлен в корзину!", Toast.LENGTH_SHORT).show();
+        });
         setupBottomNavigation();
     }
 

@@ -28,7 +28,13 @@ public class CartManager {
         return instance;
     }
 
-    public void addToCart(Product product) {
+    public void addToCart(Product product, String selectedFemaleSize, String selectedMaleSize) {
+        // Для колец комбинируем два размера в строку
+        if (product.getName().toLowerCase().contains("кольц")) {
+            // Для колец сохраняем оба размера через запятую
+            product.setSelectedSize(selectedFemaleSize + ", " + selectedMaleSize); // 15,17
+        }
+
         // Проверяем, есть ли уже такой товар с таким же размером
         for (CartItem item : cartItems) {
             if (item.product.getName().equals(product.getName()) &&
@@ -37,6 +43,7 @@ public class CartManager {
                 return;
             }
         }
+
         // Если нет - добавляем новый
         cartItems.add(new CartItem(product, 1));
     }

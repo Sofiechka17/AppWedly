@@ -71,18 +71,18 @@ public class CartAdapter extends BaseAdapter {
         // Заполняем данные
         holder.imgProduct.setImageResource(product.getImageRes());
         holder.txtName.setText(product.getName());
-        // В методе getView():
         String size = product.getSelectedSize();
         if (product.getName().toLowerCase().contains("кольц")) {
             // Для колец показываем "Размеры: 16, 18"
             holder.txtSize.setText("Размеры: " + size);
         } else if (size.equals("-")) {
             // Для товаров без размера
-            holder.txtSize.setText("Размер: не указан");
+            holder.txtSize.setText("Размер: не выбран");
         } else {
-            // Для остальных товаров
+            // Для остальных товаров (например, обувь, костюмы)
             holder.txtSize.setText("Размер: " + size);
         }
+
 
         // Исправляем цену
         String price = product.getPrice();

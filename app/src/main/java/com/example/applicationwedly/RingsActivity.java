@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.flexbox.FlexboxLayout;  // Импортируем FlexboxLayout
 
 public class RingsActivity extends AppCompatActivity {
 
@@ -41,8 +41,8 @@ public class RingsActivity extends AppCompatActivity {
         TextView productRatingText = findViewById(R.id.productRating);
         ImageView btnBack = findViewById(R.id.btnBack);
         ImageView btnLike = findViewById(R.id.btnLike);
-        LinearLayout femaleSizesContainer = findViewById(R.id.femaleSizesContainer);
-        LinearLayout maleSizesContainer = findViewById(R.id.maleSizesContainer);
+        FlexboxLayout femaleSizesContainer = findViewById(R.id.femaleSizesContainer);  // Используем FlexboxLayout
+        FlexboxLayout maleSizesContainer = findViewById(R.id.maleSizesContainer);  // Используем FlexboxLayout
         Button btnBuyNow = findViewById(R.id.btnBuyNow);
 
         // Устанавливаем данные
@@ -93,8 +93,16 @@ public class RingsActivity extends AppCompatActivity {
 
         // Кнопка "Купить сейчас"
         btnBuyNow.setOnClickListener(v -> {
-            if (selectedFemaleSize.isEmpty() || selectedMaleSize.isEmpty()) {
-                Toast.makeText(this, "Выберите оба размера", Toast.LENGTH_SHORT).show();
+            // Если товар требует размера (например, кольца), проверяем, что оба размера выбраны
+            if (currentProduct.getName().toLowerCase().contains("кольц")) {
+                if (selectedFemaleSize.isEmpty() || selectedMaleSize.isEmpty()) {
+                    Toast.makeText(this, "Выберите оба размера", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            // Для товаров без размеров или с одним размером
+            else if (selectedFemaleSize.isEmpty() && selectedMaleSize.isEmpty()) {
+                Toast.makeText(this, "Размер не выбран", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -103,46 +111,62 @@ public class RingsActivity extends AppCompatActivity {
                     currentProduct.getName(),
                     currentProduct.getPrice(),
                     currentProduct.getImageRes(),
-                    currentProduct.getRating()
+                    currentProduct.getRating(),
+                    currentProduct.getAvailableSizes(),
+                    currentProduct.getDescription()
             );
-            productWithSizes.setSelectedSize(selectedFemaleSize + ", " + selectedMaleSize);
 
-            // Добавляем в корзину
-            CartManager.getInstance().addToCart(productWithSizes);
+            // Устанавливаем выбранные размеры
+            if (currentProduct.getName().toLowerCase().contains("кольц")) {
+                productWithSizes.setSelectedSize(selectedFemaleSize + ", " + selectedMaleSize);
+            } else {
+                productWithSizes.setSelectedSize(selectedFemaleSize.isEmpty() ? "-" : selectedFemaleSize); // Для других товаров
+            }
+
+            // Добавляем в корзину с размерами
+            CartManager.getInstance().addToCart(productWithSizes, selectedFemaleSize, selectedMaleSize);
             Toast.makeText(this, "Товар добавлен в корзину!", Toast.LENGTH_SHORT).show();
         });
 
         setupBottomNavigation();
     }
 
-    private void createSizeButtons(LinearLayout container, String[] sizes, boolean isFemale) {
+    private void createSizeButtons(ViewGroup container, String[] sizes, boolean isFemale) {
         for (String size : sizes) {
             Button button = new Button(this);
             button.setText(size);
             button.setBackgroundResource(R.drawable.size_button_background);
-            button.setTextColor(getResources().getColor(R.color.gray));
+            button.setTextColor(getResources().getColor(R.color.primary_blue)); // Голубой цвет для текста
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+            // Убедимся, что используем правильный тип LayoutParams
+            FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(
+                    FlexboxLayout.LayoutParams.WRAP_CONTENT,
+                    FlexboxLayout.LayoutParams.WRAP_CONTENT
             );
-            params.setMargins(0, 0, 8, 8);
+            params.setMargins(0, 0, 8, 8);  // Устанавливаем отступы
             button.setLayoutParams(params);
+
+            // По умолчанию выбираем первую кнопку
+            if (container.getChildCount() == 0) {
+                button.setBackgroundResource(R.drawable.size_button_background_selected); // Подсвечиваем первую
+                button.setTextColor(getResources().getColor(R.color.white)); // Белый цвет текста для выбранной
+            }
 
             button.setOnClickListener(v -> {
                 // Снимаем выделение со всех кнопок в контейнере
                 for (int i = 0; i < container.getChildCount(); i++) {
                     View child = container.getChildAt(i);
                     if (child instanceof Button) {
-                        child.setBackgroundResource(R.drawable.size_button_background);
-                        ((Button) child).setTextColor(getResources().getColor(R.color.gray));
+                        child.setBackgroundResource(R.drawable.size_button_background); // Обновляем фон
+                        ((Button) child).setTextColor(getResources().getColor(R.color.primary_blue)); // Цвет текста для невыбранной
                     }
                 }
 
                 // Выделяем нажатую кнопку
                 button.setBackgroundResource(R.drawable.size_button_background_selected);
-                button.setTextColor(getResources().getColor(R.color.white));
+                button.setTextColor(getResources().getColor(R.color.white)); // Цвет текста для выбранной кнопки
 
+                // Устанавливаем размер
                 if (isFemale) {
                     selectedFemaleSize = size;
                 } else {
