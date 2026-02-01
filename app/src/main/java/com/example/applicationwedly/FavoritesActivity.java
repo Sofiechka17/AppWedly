@@ -23,23 +23,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
         favoritesGrid = findViewById(R.id.favoritesGrid);
 
-        // Создаем товары с размерами и описаниями
-        String[] ringSizes = {"15", "15.5", "16", "16.5", "17", "17.5", "18", "18.5"};
-        String ringDescription = "Эксклюзивные обручальные кольца с уникальной системой подбора размеров.";
-
-        String[] shoeSizes = {"38", "39", "40", "41", "42", "43", "44", "45"};
-        String shoeDescription = "Стильные классические туфли для особых моментов.";
-
-        // Товары без размеров
-        String cakeDescription = "Вкусный свадебный торт ручной работы.";
-        String flowerDescription = "Красивый букет невесты из свежих цветов.";
-
-        favorites.add(new Product("Свадебный торт", "₽ 10000", R.drawable.cake_image, 5.0f,
-                new String[0], cakeDescription));
-        favorites.add(new Product("Букет невесты", "₽ 7000", R.drawable.flowers_image, 4.9f,
-                new String[0], flowerDescription));
-        favorites.add(new Product("Обручальные кольца", "₽ 30000", R.drawable.rings_image, 5.0f,
-                ringSizes, ringDescription));
+        favorites = FavoritesManager.favorites;
 
         RecommendationAdapter adapter = new RecommendationAdapter(this, favorites);
         favoritesGrid.setAdapter(adapter);

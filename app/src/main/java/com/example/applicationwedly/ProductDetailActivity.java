@@ -77,18 +77,26 @@ public class ProductDetailActivity extends AppCompatActivity {
                         : R.drawable.heart_icon
         );
 
+// Установить цвет для избранного
+        if (FavoritesManager.isFavorite(currentProduct)) {
+            btnLike.setColorFilter(getResources().getColor(R.color.primary_blue));
+        } else {
+            btnLike.setColorFilter(getResources().getColor(R.color.gray));
+        }
+
         btnLike.setOnClickListener(v -> {
             FavoritesManager.toggle(currentProduct);
-            btnLike.setImageResource(
-                    FavoritesManager.isFavorite(currentProduct)
-                            ? R.drawable.heart_filled
-                            : R.drawable.heart_icon
-            );
-            Toast.makeText(this,
-                    FavoritesManager.isFavorite(currentProduct)
-                            ? "Добавлено в избранное"
-                            : "Удалено из избранного",
-                    Toast.LENGTH_SHORT).show();
+
+            // Обновить иконку и цвет
+            if (FavoritesManager.isFavorite(currentProduct)) {
+                btnLike.setImageResource(R.drawable.heart_filled);
+                btnLike.setColorFilter(getResources().getColor(R.color.primary_blue));
+                Toast.makeText(this, "Товар добавлен в избранное", Toast.LENGTH_SHORT).show();
+            } else {
+                btnLike.setImageResource(R.drawable.heart_icon);
+                btnLike.setColorFilter(getResources().getColor(R.color.gray));
+                Toast.makeText(this, "Товар удален из избранного", Toast.LENGTH_SHORT).show();
+            }
         });
 
         btnAddToCart.setOnClickListener(v -> {

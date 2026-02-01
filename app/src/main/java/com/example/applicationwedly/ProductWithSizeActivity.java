@@ -79,29 +79,26 @@ public class ProductWithSizeActivity extends AppCompatActivity {
                         : R.drawable.heart_icon
         );
 
+        // Установить цвет
+        if (FavoritesManager.isFavorite(currentProduct)) {
+            btnLike.setColorFilter(getResources().getColor(R.color.primary_blue));
+        } else {
+            btnLike.setColorFilter(getResources().getColor(R.color.gray));
+        }
+
         btnLike.setOnClickListener(v -> {
             FavoritesManager.toggle(currentProduct);
-            btnLike.setImageResource(
-                    FavoritesManager.isFavorite(currentProduct)
-                            ? R.drawable.heart_filled
-                            : R.drawable.heart_icon
-            );
-            Toast.makeText(this,
-                    FavoritesManager.isFavorite(currentProduct)
-                            ? "Добавлено в избранное"
-                            : "Удалено из избранного",
-                    Toast.LENGTH_SHORT).show();
-        });
 
-        // Создаем кнопки размеров, если они есть
-        if (currentProduct.hasSizes()) {
-            createSizeButtons(sizesContainer, currentProduct.getAvailableSizes());
-            selectedSize = currentProduct.getAvailableSizes()[0]; // По умолчанию первый размер
-        } else {
-            // Если размеров нет, скрываем контейнер
-            sizesContainer.setVisibility(View.GONE);
-            findViewById(R.id.sizeTitle).setVisibility(View.GONE);
-        }
+            if (FavoritesManager.isFavorite(currentProduct)) {
+                btnLike.setImageResource(R.drawable.heart_filled);
+                btnLike.setColorFilter(getResources().getColor(R.color.primary_blue));
+                Toast.makeText(this, "Товар добавлен в избранное", Toast.LENGTH_SHORT).show();
+            } else {
+                btnLike.setImageResource(R.drawable.heart_icon);
+                btnLike.setColorFilter(getResources().getColor(R.color.gray));
+                Toast.makeText(this, "Товар удален из избранного", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Кнопка "Купить сейчас"
         btnBuyNow.setOnClickListener(v -> {

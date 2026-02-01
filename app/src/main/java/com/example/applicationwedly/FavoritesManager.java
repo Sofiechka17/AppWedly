@@ -11,7 +11,10 @@ public class FavoritesManager {
     }
 
     public static void toggle(Product p) {
-        if (favorites.contains(p)) favorites.remove(p);
-        else favorites.add(p);
+        if (favorites.contains(p)) {
+            favorites.remove(p);
+        } else {
+            favorites.add(p);
+        }
     }
 }
