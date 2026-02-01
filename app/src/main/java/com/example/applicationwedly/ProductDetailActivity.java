@@ -92,20 +92,19 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
         btnAddToCart.setOnClickListener(v -> {
-            // Для товаров, где нужно выбрать размеры
+            // Проверяем, если это кольцо, то требуем оба размера
             if (currentProduct.getName().toLowerCase().contains("кольц")) {
                 if (selectedFemaleSize.isEmpty() || selectedMaleSize.isEmpty()) {
                     Toast.makeText(this, "Выберите оба размера", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
-            // Для товаров без размера
+            // Для других товаров (например, тортов, цветов) проверка на размер не нужна
             else if (selectedFemaleSize.isEmpty() && selectedMaleSize.isEmpty()) {
-                Toast.makeText(this, "Размер не выбран", Toast.LENGTH_SHORT).show();
-                return;
+                // Если товар не требует размера (например, торт или цветы), пропускаем проверку
             }
 
-            // Создаем копию товара с размерами
+            // Создаем копию товара с выбранным размером (если нужно)
             Product productWithSizes = new Product(
                     currentProduct.getName(),
                     currentProduct.getPrice(),
@@ -115,14 +114,13 @@ public class ProductDetailActivity extends AppCompatActivity {
                     currentProduct.getDescription()
             );
 
-            // Устанавливаем выбранный размер
             if (currentProduct.getName().toLowerCase().contains("кольц")) {
                 productWithSizes.setSelectedSize(selectedFemaleSize + ", " + selectedMaleSize);
             } else {
-                productWithSizes.setSelectedSize(selectedFemaleSize.isEmpty() ? "-" : selectedFemaleSize);
+                productWithSizes.setSelectedSize("-"); // Или можно оставить пустым, если размер не нужен
             }
 
-            // Добавляем в корзину с размерами
+            // Добавляем товар в корзину
             CartManager.getInstance().addToCart(productWithSizes, selectedFemaleSize, selectedMaleSize);
             Toast.makeText(this, "Товар добавлен в корзину!", Toast.LENGTH_SHORT).show();
         });
